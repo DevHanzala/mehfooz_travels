@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Mail, Facebook,Instagram, Menu, X } from "lucide-react";
-
+import { Phone, Mail, Facebook, Instagram, Menu, X } from "lucide-react";
+import logo from '../assets/MT_logo.png'
 const Header = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,50 +14,21 @@ const Header = () => {
 
   return (
     <header className="w-full">
-      {/* Top Bar */}
-      {/* <div className="hidden lg:flex bg-[#fafae0] justify-between px-4 py-2 text-sm border-b border-white/10">
-        <div className="flex items-center gap-2 text-[#185519]">
-          <Phone className="w-4 h-4 mr-1" />
-          <span>+123-456-7890</span>
-          <span className="mx-2">|</span>
-          <Mail className="w-4 h-4 mr-1 text-[#185519]" />
-          <span>email@mehfooztravels.com</span>
-        </div>
-        <div className="flex items-center justify-center gap-3">
-          <a
-            href="https://www.facebook.com/share/1281Dp79Wqk/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline flex items-center gap-1 text-[#185519]"
-          >
-            <Facebook className="w-4 h-4" />
-            Facebook
-          </a>
-          <a
-            href="https://www.instagram.com/mehfooztravelspvt.ltd?igsh=MTQ5MnZlMTZncGNxeA=="
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline flex items-center gap-1 text-[#185519]"
-          >
-            <Instagram className="w-4 h-4" />
-            Instagram
-          </a>
-        </div>
-      </div> */}
-
       {/* Navbar */}
       <nav className="flex items-center justify-between p-4 bg-[#185519]">
-        <div className="font-bold">
-          <p className="text-white  font-serif font-extrabold">MEHFOOZ TRAVELS(PVT) LTD</p>
-          <p className="text-white font-serif  text-[10px]">HAJJ & UMRAH SERVICES</p>
-        </div>
+        {/* Logo and Company Name */}
+        <div className="flex items-center gap-2">
+  <img src={logo} alt="Logo" className="w-12 h-12 rounded-full object-cover border-2 border-white" />
+  <div className="font-bold md:text-2xl text-">
+    <p className="text-white font-serif  font-extrabold">MEHFOOZ TRAVELS(PVT) LTD</p>
+    <p className="text-white font-serif md:text-[16px]">HAJJ & UMRAH SERVICES</p>
+  </div>
+</div>
+
 
         {/* Hamburger Menu for Mobile */}
-        <button
-          onClick={toggleMenu}
-          className="lg:hidden flex items-center text-text-white"
-        >
-          {isMenuOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6" />}
+        <button onClick={toggleMenu} className="lg:hidden flex items-center text-white">
+          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
         {/* Desktop Links */}

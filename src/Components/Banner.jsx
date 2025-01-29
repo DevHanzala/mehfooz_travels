@@ -13,7 +13,7 @@ const Banner = () => {
             href="https://wa.me/03302830270"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green-500 underline hover:text-green-400"
+            className="text-[#185519] underline hover:text-green-400"
           >
             DevHG
           </a>
