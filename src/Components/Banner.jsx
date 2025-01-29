@@ -15,7 +15,7 @@ const Banner = () => {
             rel="noopener noreferrer"
             className="text-green-500 underline hover:text-green-400"
           >
-            Dev_HG
+            DevHG
           </a>
         </p>
       </div>

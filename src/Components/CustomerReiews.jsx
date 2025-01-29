@@ -22,17 +22,17 @@ const CustomerReviews = () => {
 
   return (
     <section className="py-12 px-4 text-black">
-      <h2 className="text-4xl font-bold mb-6 text-center text-[#588157]">Customer Reviews</h2>
+      <h2 className="text-4xl font-bold mb-6 text-center text-[#185519]">Customer Reviews</h2>
       <div className="flex flex-wrap justify-center gap-6">
         {reviews.slice(currentReviewIndex, currentReviewIndex + 3).map((review, index) => (
           <div
             key={index}
-            className="w-full md:w-1/3 p-4 bg-[#588157] rounded-lg shadow-lg transform transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-y-180"
+            className="w-full md:w-1/3 p-4 bg-[#185519] rounded-lg shadow-lg transform transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-y-180"
           >
             <div
-              className="bg-[#fafae0] p-6 rounded-lg text-[#588157] transition-all duration-700 ease-in-out transform hover:rotate-y-180"
+              className="bg-white p-6 rounded-lg text-[#185519] transition-all duration-700 ease-in-out transform hover:rotate-y-180"
             >
-              <p className="md:text-xl">{review}</p>
+              <p className="md:text-xl font-mono">{review}</p>
             </div>
           </div>
         ))}
