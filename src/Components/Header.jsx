@@ -28,7 +28,7 @@ const Header = () => {
             </div>
             <div className="flex items-center gap-2">
               <FontAwesomeIcon icon={faPhone} className="w-4 h-4" />
-              <span>+123-456-7890</span>
+              <span>+92 213 6342272</span>
             </div>
           </div>
 
@@ -63,13 +63,14 @@ const Header = () => {
           <img
             src={logo || "/placeholder.svg"}
             alt="Logo"
-            className="md:w-18 md:h-18 w-12 h-12 rounded-full object-cover"
+            className="md:w-18 md:h-18 w-11 h-11 rounded-full object-cover"
           />
           <div className="font-bold md:text-2xl">
             <p className="text-[#185519] md:text-5xl text-2xl font-extrabold md:mb-1 mb-0">MEHFOOZ TRAVELS</p>
-            <p className="text-[#185519] md:text-[15px] underline text-[8px] md:font-extrabold">
-              HAJJ & UMRAH SERVICES (21 YEARS OF SERVICE EXCELLENCE)
-            </p>
+            <p className="text-[#185519] md:text-[15px] underline text-[8px] md:font-extrabold italic">
+  HAJJ & UMRAH SERVICES (21 YEARS OF SERVICE EXCELLENCE)
+</p>
+
           </div>
         </div>
 

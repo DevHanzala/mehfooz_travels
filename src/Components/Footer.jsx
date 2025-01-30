@@ -86,7 +86,7 @@ const Footer = () => {
 >
   <FontAwesomeIcon icon={faMapMarkerAlt} className="w-5 h-5 text-white/60 group-hover:scale-110 transition-transform" />
   <span className="font-medium text-sm">
-    Office No. 1, First Floor, Amma Tower, Karachi
+  BS-9/1 Block No. 13, Federal B Area, Karachi Pakistan
   </span>
 </a>
 

@@ -21,7 +21,7 @@ const CustomerReviews = () => {
   }, []);
 
   return (
-    <section className="py-12 px-4 text-black">
+    <section className="py-4 px-4 text-black">
       <h2 className="text-4xl font-bold mb-6 text-center text-[#185519]">Customer Reviews</h2>
       <div className="flex flex-wrap justify-center gap-6">
         {reviews.slice(currentReviewIndex, currentReviewIndex + 3).map((review, index) => (
@@ -32,7 +32,7 @@ const CustomerReviews = () => {
             <div
               className="bg-white p-6 rounded-lg text-[#185519] transition-all duration-700 ease-in-out transform hover:rotate-y-180"
             >
-              <p className="md:text-xl font-mono">{review}</p>
+              <p className="md:text-xl font-mono font-medium">{review}</p>
             </div>
           </div>
         ))}
