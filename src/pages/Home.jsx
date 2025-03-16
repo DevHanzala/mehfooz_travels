@@ -1,22 +1,26 @@
-"use client"
 import { useState, useEffect } from "react"
-import umrah from "../assets/Umrah.jpg"
+import { useNavigate } from "react-router-dom"
+import umrah from "../assets/Umrah-2.jpg"
 import hajj from "../assets/Hajj.jpg"
 import { FaWhatsapp, FaChevronLeft, FaChevronRight } from "react-icons/fa"
-import CustomerReviews from "../Components/CustomerReiews"
 import C1 from "../assets/c1.jpg"
 import C2 from "../assets/c2.jpg"
 import C3 from "../assets/c3.jpg"
 import C4 from "../assets/c4.jpg"
+import { motion } from "framer-motion"
 
-// Array of carousel images with their titles
 const carouselImages = [C1, C2, C3, C4]
 
 const Home = () => {
-  // State for carousel
+  const navigate = useNavigate()
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isHovering, setIsHovering] = useState(null)
+  const [imagesLoaded, setImagesLoaded] = useState({
+    carousel: Array(carouselImages.length).fill(false),
+    hajj: false,
+    umrah: false
+  })
 
-  // Auto slide effect
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselImages.length)
@@ -32,11 +36,21 @@ const Home = () => {
     setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
   }
 
+  const handlePackageClick = (type) => {
+    navigate(`/${type.toLowerCase()}`)
+  }
+
+  const handleCarouselImageLoad = (index) => {
+    setImagesLoaded(prev => ({
+      ...prev,
+      carousel: prev.carousel.map((loaded, i) => i === index ? true : loaded)
+    }))
+  }
+
   return (
     <div>
-      {/* Custom Image Carousel Section */}
-      <div className="relative md:h-screen h-[50vh]">
-        {/* Carousel Container */}
+      {/* Carousel Section */}
+      <div className="relative md:h-[90vh] h-[50vh]">
         <div className="relative w-full h-full overflow-hidden group">
           {carouselImages.map((image, index) => (
             <div
@@ -45,22 +59,30 @@ const Home = () => {
                 index === currentSlide
                   ? "opacity-100 translate-x-0 scale-100"
                   : index < currentSlide
-                    ? "opacity-0 -translate-x-full scale-105" // Reduced scale effect
-                    : "opacity-0 translate-x-full scale-105" // Reduced scale effect
+                    ? "opacity-0 -translate-x-full scale-105"
+                    : "opacity-0 translate-x-full scale-105"
               }`}
             >
-              {/* Image with subtle zoom effect */}
-              <img
-                src={image || "/placeholder.svg"}
-                alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover transition-transform duration-700"
-              />
-              {/* Lighter gradient overlay */}
+              <div className="relative w-full h-full">
+                {!imagesLoaded.carousel[index] && (
+                  <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-[#185519] border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
+                <img
+                  src={image || "/placeholder.svg"}
+                  alt={`Slide ${index + 1}`}
+                  loading="lazy"
+                  onLoad={() => handleCarouselImageLoad(index)}
+                  className={`w-full h-full object-cover transition-transform duration-700 ${
+                    !imagesLoaded.carousel[index] ? 'opacity-0' : 'opacity-100'
+                  }`}
+                />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/50"></div>
             </div>
           ))}
 
-          {/* Desktop Navigation Arrows - Only visible on larger screens and on hover */}
           <button
             onClick={prevSlide}
             className="hidden md:group-hover:flex absolute left-4 top-1/2 -translate-y-1/2 items-center justify-center w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 text-white transition-all duration-300 transform hover:scale-110"
@@ -76,7 +98,6 @@ const Home = () => {
             <FaChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Mobile Indicators - Only visible on mobile */}
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 md:hidden">
             {carouselImages.map((_, index) => (
               <button
@@ -90,87 +111,184 @@ const Home = () => {
             ))}
           </div>
         </div>
-
-        {/* Arabic Text */}
         <div className="absolute md:top-2/3 top-1/2 w-full overflow-hidden">
           <div className="animate-slide-rl">
-            <p className="text-[#FFD700] md:text-5xl text-3xl font-arabic text-center whitespace-nowrap font-bold">
+            <p className="text-[#FFD700] md:text-5xl text-2xl font-arabic text-center whitespace-nowrap font-bold px-4">
               لَبَّيْكَ ٱللَّٰهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ ٱلْحَمْدَ وَٱلنِّعْمَةَ لَكَ وَٱلْمُلْكَ لَا شَرِيكَ لَكَ
             </p>
           </div>
         </div>
       </div>
-
-      {/* Welcome Section with Animation */}
+      {/* Welcome Section */}
       <section className="py-12 px-4 text-center text-black animate-fade-in" aria-labelledby="welcome-heading">
         <h1
           id="welcome-heading"
-          className="md:text-4xl text-3xl font-bold mb-4 font-serif text-[#185519] animate-slide-up"
+          className="md:text-4xl text-2xl font-bold mb-4 font-serif text-[#185519] animate-slide-up"
         >
           Welcome to Mehfooz Travels
         </h1>
-        <p className="mb-8 md:w-2/3 mx-auto md:text-2xl font-medium md:text-center text-left animate-fade-in animation-delay-200">
+        <p className="mb-8 md:w-2/3 w-full mx-auto md:text-2xl text-lg font-medium text-center animate-fade-in animation-delay-200">
           Mehfooz Travels, your trusted partner in spiritual journeys. We specialize in providing comprehensive Hajj and
           Umrah services, making your sacred pilgrimage a peaceful and memorable experience.
         </p>
-        <h2 className="font-bold md:w-[35vw] mx-auto md:text-3xl text-[23px] text-[#185519] my-5 font-serif animate-slide-up animation-delay-400">
+        <h2 className="font-bold md:w-[35vw] w-full mx-auto md:text:3xl text-xl text-[#185519] my-5 font-serif animate-slide-up animation-delay-400">
           The Leading Hajj & Umrah Travel Company In Pakistan
         </h2>
 
-        {/* Packages Grid with Hover Animations */}
+        {/* Packages Grid */}
         <div
-          className="md:flex flex-wrap justify-center gap-4 animate-fade-in animation-delay-600"
+          className="flex flex-col md:flex-row md:flex-wrap justify-center md:gap-4 gap-6 animate-fade-in animation-delay-600"
           role="region"
           aria-label="Our Packages"
         >
           {/* Hajj Package */}
-          <div className="relative md:w-[30vw] w-full h-[50vh] md:mb-0 mb-4 overflow-hidden group transform transition-all duration-500 hover:-translate-y-2">
-            <img
-              src={hajj || "/placeholder.svg"}
-              alt="Kaaba during Hajj season"
-              className="w-full h-full rounded-lg object-cover transition-all duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <h3 className="absolute bottom-0 left-0 w-full text-xl md:text-2xl font-semibold text-white p-4 text-center transition-all duration-500 transform group-hover:translate-y-[-8px]">
-              Hajj Packages
-            </h3>
+          <div
+            onClick={() => handlePackageClick("Hajj")}
+            onMouseEnter={() => setIsHovering("hajj")}
+            onMouseLeave={() => setIsHovering(null)}
+            className="relative md:w-[30vw] w-full h-[40vh] md:h-[50vh] md:mb-0 mb-4 overflow-hidden group cursor-pointer transform transition-all duration-500 hover:shadow-2xl rounded-lg"
+            role="button"
+            tabIndex={0}
+          >
+            {/* Title moved to top with green background */}
+            <motion.div
+              className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="md:text-xl font-serif  font-bold text-white text-center bg-[#185519] px-4 py-2 rounded-sm shadow-lg transform transition-all duration-300 group-hover:scale-110">
+                Hajj Packages
+              </h3>
+            </motion.div>
+
+            <div className="relative w-full h-full">
+              {!imagesLoaded.hajj && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-[#185519] border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+              <img
+                src={hajj || "/placeholder.svg"}
+                alt="Kaaba during Hajj season"
+                loading="lazy"
+                onLoad={() => setImagesLoaded(prev => ({ ...prev, hajj: true }))}
+                className={`w-full h-full rounded-lg object-cover transition-all duration-500 group-hover:scale-105 ${
+                  !imagesLoaded.hajj ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+            </div>
+            <div
+              className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 ${
+                isHovering === "hajj" ? "opacity-80" : "opacity-60"
+              }`}
+            ></div>
+
+            {/* Hover content at bottom */}
+            <motion.div
+              className="absolute bottom-0 left-0 w-full p-4"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{
+                y: isHovering === "hajj" ? 0 : 20,
+                opacity: isHovering === "hajj" ? 1 : 0,
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              <p className="text-white text-center">Click to explore our Hajj packages</p>
+            </motion.div>
           </div>
 
           {/* Umrah Package */}
-          <div className="relative md:w-[30vw] w-full h-[50vh] overflow-hidden group transform transition-all duration-500 hover:-translate-y-2">
-            <img
-              src={umrah || "/placeholder.svg"}
-              alt="Masjid al-Haram during Umrah"
-              className="w-full h-full rounded-lg object-cover transition-all duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <h3 className="absolute bottom-0 left-0 w-full text-xl md:text-2xl font-semibold text-white p-4 text-center transition-all duration-500 transform group-hover:translate-y-[-8px]">
-              Umrah Packages
-            </h3>
+          <div
+            onClick={() => handlePackageClick("Umrah")}
+            onMouseEnter={() => setIsHovering("umrah")}
+            onMouseLeave={() => setIsHovering(null)}
+            className="relative md:w-[30vw] w-full h-[40vh] md:h-[50vh] overflow-hidden group cursor-pointer transform transition-all duration-500 hover:shadow-2xl rounded-lg"
+            role="button"
+            tabIndex={0}
+          >
+            {/* Title moved to top with green background */}
+            <motion.div
+              className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="md:text-xl font-serif font-bold text-white text-center bg-[#185519] px-2 py-2 rounded-sm shadow-lg transform transition-all duration-300 group-hover:scale-110">
+                Umrah Packages
+              </h3>
+            </motion.div>
+
+            <div className="relative w-full h-full">
+              {!imagesLoaded.umrah && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                  <div className="w-8 h-8 border-4 border-[#185519] border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+              <img
+                src={umrah || "/placeholder.svg"}
+                alt="Masjid al-Haram during Umrah"
+                loading="lazy"
+                onLoad={() => setImagesLoaded(prev => ({ ...prev, umrah: true }))}
+                className={`w-full h-full rounded-lg object-cover transition-all duration-500 group-hover:scale-105 ${
+                  !imagesLoaded.umrah ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+            </div>
+            <div
+              className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 ${
+                isHovering === "umrah" ? "opacity-80" : "opacity-60"
+              }`}
+            ></div>
+
+            {/* Hover content at bottom */}
+            <motion.div
+              className="absolute bottom-0 left-0 w-full p-4"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{
+                y: isHovering === "umrah" ? 0 : 20,
+                opacity: isHovering === "umrah" ? 1 : 0,
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              <p className="text-white text-center">Click to explore our Umrah packages</p>
+            </motion.div>
           </div>
         </div>
 
-        <p className="md:w-2/3 mx-auto md:text-2xl font-medium mt-4 md:text-center text-left animate-fade-in animation-delay-800">
+        <p className="md:w-2/3 w-full mx-auto md:text-2xl text-lg font-medium mt-4 text-center animate-fade-in animation-delay-800">
           Specialized in Premium Hajj packages, Year-round Umrah services, Group & family packages, VIP accommodations
           near Haram, Visa processing, and Transportation services.
         </p>
       </section>
-
-      {/* Reviews Section */}
-      <CustomerReviews />
-
-      {/* WhatsApp Button */}
-      <a
+    
+      {/* WhatsApp Button - Updated with continuous bounce animation */}
+      <motion.a
         href="https://wa.me/923366655663"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 bg-[#185519] text-white p-4 rounded-full shadow-lg hover:bg-[#1e671f] transition-all duration-300 hover:scale-110 z-50 animate-bounce-slow"
-        aria-label="Contact us on WhatsApp"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 bg-[#185519] text-white p-3 md:p-4 rounded-full shadow-lg hover:bg-[#1e671f] z-40"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{
+          opacity: 1,
+          y: [0, -8, 0],
+          transition: {
+            y: {
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            },
+            opacity: {
+              duration: 0.5,
+              delay: 1,
+            },
+          },
+        }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
-        <FaWhatsapp className="w-6 h-6 text-white" />
-      </a>
-
-      {/* Animations Styles */}
+        <FaWhatsapp className="w-5 h-5 md:w-6 md:h-6 text-white" />
+      </motion.a>
       <style jsx>{`
         @keyframes slide-lr {
           0% { transform: translateX(100%); }
@@ -248,4 +366,3 @@ const Home = () => {
 }
 
 export default Home
-
